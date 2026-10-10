@@ -1,4 +1,5 @@
-import { ArrowRight, ChevronRight, Clock, GraduationCap, HandCoins, Handshake, Sprout } from "lucide-react";
+import { ArrowRight, Clock, GraduationCap, HandCoins, Handshake, Sprout } from "lucide-react";
+import { JourneyDock } from "../journey-dock";
 
 const audiences = [
   { icon: Sprout, who: "Entrepreneurs", what: "Assess gaps, learn, and build readiness." },
@@ -66,21 +67,7 @@ export function Product() {
 
         {/* The product's own journey, from first assessment to growth. */}
         <div className="reveal mt-16 rounded-2xl bg-white sm:mt-20">
-          <ol
-            aria-label="The Jasiri ya Mali journey"
-            className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-3 px-5 py-6 sm:gap-x-3 sm:px-8 sm:py-7"
-          >
-            {journey.map((stage, i) => (
-              <li key={stage} className="flex items-center gap-1.5 sm:gap-3">
-                <span className="text-[0.95rem] font-semibold tracking-[-0.01em] text-ocean sm:text-lg">
-                  {stage}
-                </span>
-                {i < journey.length - 1 ? (
-                  <ChevronRight aria-hidden="true" className="size-4 text-teal" strokeWidth={2} />
-                ) : null}
-              </li>
-            ))}
-          </ol>
+          <JourneyDock stages={journey} />
         </div>
       </div>
     </section>
