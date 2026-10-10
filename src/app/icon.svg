@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+  <!-- Colours mirror src/lib/brand.ts; static file, so update both together. -->
+  <defs>
+    <linearGradient id="g" x1="4" y1="36" x2="36" y2="4" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0b3654"/>
+      <stop offset="0.3" stop-color="#0b8fe8"/>
+      <stop offset="0.55" stop-color="#18c6c0"/>
+      <stop offset="0.78" stop-color="#0aa58d"/>
+      <stop offset="1" stop-color="#46b85b"/>
+    </linearGradient>
+  </defs>
+  <rect width="40" height="40" rx="9" fill="#f5f8fa"/>
+  <path d="M31.4 8.6A16 16 0 1 0 36 20" transform="translate(2 2) scale(.9)" stroke="url(#g)" stroke-width="3.3" stroke-linecap="round"/>
+  <circle cx="33.3" cy="14.5" r="2" fill="#46b85b"/>
+  <path d="M14.6 26.3V13.7l10.8 12.6V13.7" stroke="#0b3654" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

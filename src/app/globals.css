@@ -1,26 +1,167 @@
 @import "tailwindcss";
 
+/* Nexora brand tokens — exact values from the official palette. */
+@theme {
+  --color-ocean: #0b3654;
+  --color-ocean-900: #082a42;
+  --color-ocean-950: #051c2c;
+  --color-digital: #0b8fe8;
+  --color-turquoise: #18c6c0;
+  --color-teal: #0aa58d;
+  --color-green: #46b85b;
+  --color-mist: #f5f8fa;
+
+  /* Lighter tints for small text and states on Deep Ocean surfaces. */
+  --color-green-soft: #6fd07f;
+  --color-error-soft: #ffb4a8;
+
+  /* Text tones derived from Deep Ocean Blue for readable secondary copy. */
+  --color-ink: #0b3654;
+  --color-ink-soft: #3d5a70;
+  --color-ink-muted: #5b7487;
+  --color-line: #dfe7ed;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --brand-gradient: linear-gradient(
+    90deg,
+    #0b3654 0%,
+    #0b8fe8 30%,
+    #18c6c0 55%,
+    #0aa58d 78%,
+    #46b85b 100%
+  );
+  --brand-gradient-y: linear-gradient(
+    180deg,
+    #0b3654 0%,
+    #0b8fe8 30%,
+    #18c6c0 55%,
+    #0aa58d 78%,
+    #46b85b 100%
+  );
+  --header-height: 4.5rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html {
+  scroll-padding-top: var(--header-height);
+  -webkit-text-size-adjust: 100%;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: #18c6c0;
+  color: #051c2c;
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-digital);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* ---------- Reusable brand utilities ---------- */
+
+@utility bg-brand-gradient {
+  background-image: var(--brand-gradient);
+}
+
+@utility bg-brand-gradient-y {
+  background-image: var(--brand-gradient-y);
+}
+
+@utility container-page {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  @media (width >= 40rem) {
+    padding-inline: 2rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 2.5rem;
+  }
+}
+
+/*
+ * Text fields: a soft rounded field. On focus the border gives way to a
+ * single system-blue outline drawn exactly over it, so only one ring shows.
+ */
+@utility mac-field {
+  border: 1px solid rgb(255 255 255 / 0.4);
+  border-radius: 7px;
+  background-color: rgb(255 255 255 / 0.07);
+  outline: 2px solid transparent;
+  outline-offset: -1px;
+  transition:
+    outline-color 0.15s ease,
+    background-color 0.15s ease;
+
+  &:focus,
+  &:focus-visible {
+    border-radius: 7px;
+    outline: 2px solid #0a84ff;
+    outline-offset: -1px;
+    background-color: rgb(255 255 255 / 0.09);
+  }
+
+  &[aria-invalid="true"] {
+    border-color: var(--color-error-soft);
+  }
+
+  &[aria-invalid="true"]:focus {
+    outline-color: var(--color-error-soft);
+  }
+}
+
+/* ---------- Motion ---------- */
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-rise {
+    animation: rise-in 0.7s var(--ease-out-soft) both;
+    animation-delay: var(--delay, 0ms);
+  }
+
+  /*
+   * Section reveals use scroll-driven animations: no JavaScript, content is
+   * never hidden from assistive tech, and unsupported browsers simply show
+   * everything immediately.
+   */
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: rise-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+  }
 }
